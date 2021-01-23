@@ -26,6 +26,6 @@ services:
         ports:
             - "5432:5432"
         environment:
-            - POSTGRES_DB=parking
-            - POSTGRES_USER=root
-            - POSTGRES_PASSWORD=pass
+            POSTGRES_DB: $DATABASE_NAME
+            POSTGRES_USER: $DATABASE_USER
+            POSTGRES_PASSWORD: $DATABASE_PASSWORD
