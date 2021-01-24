@@ -13,7 +13,9 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/task')]
 final class TaskController extends AbstractController
 {
-    #[Route('/', name: 'task_index', methods: ['GET'])]
+    public const INDEX = 'task_index';
+
+    #[Route('/', name: self::INDEX, methods: ['GET'])]
     public function index(TaskRepository $taskRepository): Response
     {
         return $this->render('task/index.html.twig', [

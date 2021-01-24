@@ -12,11 +12,15 @@ use Doctrine\Persistence\ObjectManager;
 
 final class AppFixtures extends Fixture
 {
+    public const ADMIN_USERNAME = 'admin';
+    public const MANAGER_USERNAME = 'manager';
+    public const DEVELOPER_USERNAME = 'developer';
+
     public function load(ObjectManager $objectManager): void
     {
-        $admin = new User(username: 'admin', roles: [User::ROLE_ADMIN]);
-        $manager = new User(username: 'manager', roles: [User::ROLE_MANAGER]);
-        $developer = new User(username: 'developer', roles: [User::ROLE_DEVELOPER]);
+        $admin = new User(username: self::ADMIN_USERNAME, roles: [User::ROLE_ADMIN]);
+        $manager = new User(username: self::MANAGER_USERNAME, roles: [User::ROLE_MANAGER]);
+        $developer = new User(username: self::DEVELOPER_USERNAME, roles: [User::ROLE_DEVELOPER]);
 
         $actual = new Project(status: Project::ACTUAL_STATUS, members: [$manager]);
         $empty = new Project(status: Project::ACTUAL_STATUS, members: []);
