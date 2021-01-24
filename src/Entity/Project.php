@@ -14,6 +14,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Project
 {
+    public const ACTUAL_STATUS = 'actual';
+    public const ARCHIVED_STATUS = 'archived';
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
