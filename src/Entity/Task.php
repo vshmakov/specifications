@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Repository\TaskRepository;
@@ -17,27 +19,28 @@ class Task
      */
     private int $id;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private string $title;
 
-    public function __construct(
-        /**
-         * @ORM\Column(type="string", length=255)
-         */
-        private string $title,
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="tasks")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private User $performedBy;
 
-        /**
-         * @ORM\ManyToOne(targetEntity=User::class, inversedBy="tasks")
-         * @ORM\JoinColumn(nullable=false)
-         */
-        private User $performedBy,
+    /**
+     * @ORM\ManyToOne(targetEntity=Project::class, inversedBy="tasks")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private Project $project;
 
-        /**
-         * @ORM\ManyToOne(targetEntity=Project::class, inversedBy="tasks")
-         * @ORM\JoinColumn(nullable=false)
-         */
-        private Project $project,
-
-    )
+    public function __construct(string $title, User $performedBy, Project $project)
     {
+        $this->title = $title;
+        $this->performedBy = $performedBy;
+        $this->project = $project;
     }
 
     public function getId(): int
@@ -50,17 +53,13 @@ class Task
         return $this->project;
     }
 
-
     public function getTitle(): string
     {
         return $this->title;
     }
 
-
     public function getPerformedBy(): User
     {
         return $this->performedBy;
     }
-
-
 }

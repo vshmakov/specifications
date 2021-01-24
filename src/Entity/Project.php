@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Repository\ProjectRepository;
@@ -19,28 +21,26 @@ class Project
      */
     private int $id;
 
-
-
-
     /**
      * @ORM\OneToMany(targetEntity=Task::class, mappedBy="project")
      */
     private Collection $tasks;
 
-    public function __construct(
-        /**
-         * @ORM\Column(type="string", length=255)
-         */
-        private string $status,
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private string $status;
+
     /**
      * @ORM\ManyToMany(targetEntity=User::class, inversedBy="projects")
      */
-    private Collection $members,
+    private Collection $members;
 
-    )
+    public function __construct(string $status, array $members)
     {
-
         $this->tasks = new ArrayCollection();
+        $this->status = $status;
+        $this->members = new ArrayCollection($members);
     }
 
     public function getId(): int
@@ -76,8 +76,6 @@ class Project
     {
         return $this->status;
     }
-
-
 
     /**
      * @return Collection|Task[]
