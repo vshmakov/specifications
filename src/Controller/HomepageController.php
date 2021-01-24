@@ -15,6 +15,6 @@ final class HomepageController extends AbstractController
     #[Route('/', name: self::ROUTE, methods: ['GET'])]
     public function __inwalk(): RedirectResponse
     {
-        return $this->redirectToRoute(TaskController::INDEX);
+        return $this->redirectToRoute('task_index');
     }
 }
