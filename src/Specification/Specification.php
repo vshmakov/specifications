@@ -12,19 +12,25 @@ abstract class Specification
 
     abstract public function generateDql(string $alias): ?string;
 
-    abstract public function getParameters(): array;
+    abstract public function getParameters(string $alias): array;
 
-    public function addFilter(QueryBuilder $queryBuilder): void
+    public function modifyQuery(QueryBuilder $queryBuilder): void
     {
-        $dql = $this->generateDql($queryBuilder->getRootAliases()[0]);
+    }
+
+    public function filter(QueryBuilder $queryBuilder): void
+    {
+        $this->modifyQuery($queryBuilder);
+        $alias = $queryBuilder->getRootAliases()[0];
+        $dql = $this->generateDql($alias);
 
         if (null === $dql) {
             return;
         }
 
-        $queryBuilder->andWhere($dql);
+        $queryBuilder->where($dql);
 
-        foreach ($this->getParameters() as $field => $value) {
+        foreach ($this->getParameters($alias) as $field => $value) {
             $queryBuilder->setParameter($field, $value);
         }
     }

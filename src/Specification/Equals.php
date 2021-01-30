@@ -8,15 +8,8 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 
 class Equals extends Specification
 {
-    /** @var string */
-    private $field;
-
-    private $value;
-
-    public function __construct(string $field, $value)
+    public function __construct(private ?string $field, private mixed $value)
     {
-        $this->field = $field;
-        $this->value = $value;
     }
 
     public function isSatisfiedBy(object $entity): bool
@@ -29,13 +22,17 @@ class Equals extends Specification
 
     public function generateDql(string $alias): ?string
     {
+        if (null === $this->field) {
+            return sprintf('%s = :%1$s', $alias);
+        }
+
         return sprintf('%s.%s = :%2$s', $alias, $this->field);
     }
 
-    public function getParameters(): array
+    public function getParameters(string $alias): array
     {
         return [
-            $this->field => $this->value,
+            $this->field ?? $alias => $this->value,
         ];
     }
 }

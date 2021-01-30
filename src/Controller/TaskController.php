@@ -22,8 +22,8 @@ final class TaskController extends AbstractController
     #[Route('/', name: 'task_index', methods: ['GET'])]
     public function index(TaskRepository $taskRepository): Response
     {
-        $queryBuilder = $taskRepository->createQueryBuilder('t');
-        $this->isViewable->addFilter($queryBuilder);
+        $queryBuilder = $taskRepository->createQueryBuilder('task');
+        $this->isViewable->filter($queryBuilder);
 
         return $this->render('task/index.html.twig', [
             'tasks' => $queryBuilder->getQuery()

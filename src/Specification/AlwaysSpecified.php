@@ -16,7 +16,7 @@ class AlwaysSpecified extends Specification
         return null;
     }
 
-    public function getParameters(): array
+    public function getParameters(string $alias): array
     {
         return [];
     }

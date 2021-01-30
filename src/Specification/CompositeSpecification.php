@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Specification;
 
+use Doctrine\ORM\QueryBuilder;
+
 abstract class CompositeSpecification extends Specification
 {
     abstract public function getSpecification(): Specification;
@@ -20,9 +22,15 @@ abstract class CompositeSpecification extends Specification
             ->generateDql($alias);
     }
 
-    public function getParameters(): array
+    public function getParameters(string $alias): array
     {
         return $this->getSpecification()
-            ->getParameters();
+            ->getParameters($alias);
+    }
+
+    public function modifyQuery(QueryBuilder $queryBuilder): void
+    {
+        $this->getSpecification()
+            ->modifyQuery($queryBuilder);
     }
 }

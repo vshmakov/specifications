@@ -7,9 +7,12 @@ namespace App\Specification\Task;
 use App\Entity\User;
 use App\Security\CurrentUserProvider;
 use App\Specification\AlwaysSpecified;
+use App\Specification\AndX;
 use App\Specification\CompositeSpecification;
 use App\Specification\Equals;
-use App\Specification\In;
+use App\Specification\Join;
+use App\Specification\Not;
+use App\Specification\Project\IsArchived;
 use App\Specification\Specification;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
@@ -25,12 +28,27 @@ final class IsViewable extends CompositeSpecification
             return new AlwaysSpecified();
         }
 
+        $isNotArchived = new Not(new IsArchived());
         $user = $this->currentUserProvider->getUser();
 
         if ($this->authorizationChecker->isGranted(User::ROLE_MANAGER)) {
-            return new In('project', $user->getProjects());
+            $isProjectMember = new Join(
+                'project',
+                'members',
+                new Equals(null, $user)
+            );
+
+            return $this->getProjectSpecification(new AndX($isNotArchived, $isProjectMember));
         }
 
-        return new Equals('performedBy', $user);
+        return new AndX(
+            new Equals('performedBy', $user),
+            $this->getProjectSpecification($isNotArchived)
+        );
+    }
+
+    private function getProjectSpecification(Specification $specification): Join
+    {
+        return new Join('task', 'project', $specification);
     }
 }
