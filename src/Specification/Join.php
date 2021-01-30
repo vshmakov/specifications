@@ -33,6 +33,7 @@ final class Join extends Specification
     public function modifyQuery(QueryBuilder $queryBuilder): void
     {
         $queryBuilder->join(sprintf('%s.%s', $this->rootAlias, $this->field), $this->field);
-        $this->specification->modifyQuery($queryBuilder);
+        $this->specification
+            ->modifyQuery($queryBuilder);
     }
 }

@@ -18,7 +18,7 @@ final class CurrentUserProvider
     {
         $user = $this->security->getUser();
 
-        if (null === $user) {
+        if (!$user instanceof User) {
             throw new UnauthorizedHttpException();
         }
 

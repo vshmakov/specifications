@@ -18,7 +18,10 @@ final class Not extends Specification
 
     public function generateDql(string $alias): ?string
     {
-        return sprintf('not (%s)', $this->specification->generateDql($alias));
+        return sprintf(
+            'not (%s)',
+            $this->specification->generateDql($alias)
+        );
     }
 
     public function getParameters(): array

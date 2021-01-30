@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Specification;
 
-class AlwaysSpecified extends Specification
+final class AlwaysSpecified extends Specification
 {
     public function isSatisfiedBy(object $entity): bool
     {
