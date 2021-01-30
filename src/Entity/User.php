@@ -55,6 +55,11 @@ class User implements UserInterface
         $this->roles = $roles;
     }
 
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
     public function getUsername(): string
     {
         return $this->username;
@@ -85,52 +90,11 @@ class User implements UserInterface
         return $this->projects;
     }
 
-    public function addProject(Project $project): self
-    {
-        if (!$this->projects->contains($project)) {
-            $this->projects[] = $project;
-            $project->addMember($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProject(Project $project): self
-    {
-        if ($this->projects->removeElement($project)) {
-            $project->removeMember($this);
-        }
-
-        return $this;
-    }
-
     /**
      * @return Collection|Task[]
      */
     public function getTasks(): Collection
     {
         return $this->tasks;
-    }
-
-    public function addTask(Task $task): self
-    {
-        if (!$this->tasks->contains($task)) {
-            $this->tasks[] = $task;
-            $task->setPerformedBy($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTask(Task $task): self
-    {
-        if ($this->tasks->removeElement($task)) {
-            // set the owning side to null (unless already changed)
-            if ($task->getPerformedBy() === $this) {
-                $task->setPerformedBy(null);
-            }
-        }
-
-        return $this;
     }
 }
