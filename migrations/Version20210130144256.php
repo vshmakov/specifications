@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20210123174258 extends AbstractMigration
+final class Version20210130144256 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -30,7 +30,8 @@ final class Version20210123174258 extends AbstractMigration
         $this->addSql('CREATE TABLE task (id INT NOT NULL, performed_by_id INT NOT NULL, project_id INT NOT NULL, title VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_527EDB252E65C292 ON task (performed_by_id)');
         $this->addSql('CREATE INDEX IDX_527EDB25166D1F9C ON task (project_id)');
-        $this->addSql('CREATE TABLE users (id INT NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE users (id INT NOT NULL, username VARCHAR(180) NOT NULL, roles JSON NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE UNIQUE INDEX UNIQ_1483A5E9F85E0677 ON users (username)');
         $this->addSql('ALTER TABLE project_user ADD CONSTRAINT FK_B4021E51166D1F9C FOREIGN KEY (project_id) REFERENCES project (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE project_user ADD CONSTRAINT FK_B4021E51A76ED395 FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE task ADD CONSTRAINT FK_527EDB252E65C292 FOREIGN KEY (performed_by_id) REFERENCES users (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
