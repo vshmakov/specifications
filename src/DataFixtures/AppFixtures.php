@@ -29,8 +29,9 @@ final class AppFixtures extends Fixture
         $developerTask = new Task(title: 'Developer task', performedBy: $developer, project: $actual);
         $managerTask = new Task(title: 'Manager task', performedBy: $manager, project: $actual);
         $emptyTask = new Task(title: 'Empty task', performedBy: $manager, project: $empty);
+        $archivedTask = new Task(title: 'Archived task', performedBy: $developer, project: $archived);
 
-        foreach ([$admin, $manager, $developer, $actual, $empty, $archived, $developerTask, $managerTask, $emptyTask] as $entity) {
+        foreach ([$admin, $manager, $developer, $actual, $empty, $archived, $developerTask, $managerTask, $emptyTask, $archivedTask] as $entity) {
             $objectManager->persist($entity);
         }
 
