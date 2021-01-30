@@ -2,7 +2,7 @@ version: '3.2'
 
 services:
     nginx:
-        image: nginx:latest
+        image: nginx:1.18.0
         ports:
             - "8080:80"
         volumes:
@@ -22,7 +22,7 @@ services:
             - db
 
     db:
-        image: postgres:latest
+        image: postgres:13.1
         ports:
             - "5432:5432"
         environment:
