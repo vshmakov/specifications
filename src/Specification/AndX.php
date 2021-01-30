@@ -33,9 +33,9 @@ final class AndX extends Specification
         return implode(' and ', $parts);
     }
 
-    public function getParameters(string $alias): array
+    public function getParameters(): array
     {
-        $parameters = $this->mapSpecifications(fn (Specification $specification): array => $specification->getParameters($alias));
+        $parameters = $this->mapSpecifications(fn (Specification $specification): array => $specification->getParameters());
 
         return array_merge(...$parameters);
     }

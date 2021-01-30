@@ -11,6 +11,7 @@ use App\Specification\AndX;
 use App\Specification\CompositeSpecification;
 use App\Specification\Equals;
 use App\Specification\Join;
+use App\Specification\MemberOf;
 use App\Specification\Not;
 use App\Specification\Project\IsArchived;
 use App\Specification\Specification;
@@ -32,11 +33,7 @@ final class IsViewable extends CompositeSpecification
         $user = $this->currentUserProvider->getUser();
 
         if ($this->authorizationChecker->isGranted(User::ROLE_MANAGER)) {
-            $isProjectMember = new Join(
-                'project',
-                'members',
-                new Equals(null, $user)
-            );
+            $isProjectMember = new MemberOf('members', $user);
 
             return $this->getProjectSpecification(new AndX($isNotArchived, $isProjectMember));
         }

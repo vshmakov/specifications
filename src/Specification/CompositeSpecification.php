@@ -22,10 +22,10 @@ abstract class CompositeSpecification extends Specification
             ->generateDql($alias);
     }
 
-    public function getParameters(string $alias): array
+    public function getParameters(): array
     {
         return $this->getSpecification()
-            ->getParameters($alias);
+            ->getParameters();
     }
 
     public function modifyQuery(QueryBuilder $queryBuilder): void

@@ -14,6 +14,8 @@ final class Join extends Specification
 
     public function isSatisfiedBy(object $entity): bool
     {
+        return $this->specification
+            ->isSatisfiedBy($this->getFieldValue($entity, $this->field));
     }
 
     public function generateDql(string $alias): ?string
@@ -22,10 +24,10 @@ final class Join extends Specification
             ->generateDql($this->field);
     }
 
-    public function getParameters(string $alias): array
+    public function getParameters(): array
     {
         return $this->specification
-            ->getParameters($this->field);
+            ->getParameters();
     }
 
     public function modifyQuery(QueryBuilder $queryBuilder): void

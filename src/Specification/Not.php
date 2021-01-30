@@ -21,9 +21,9 @@ final class Not extends Specification
         return sprintf('not (%s)', $this->specification->generateDql($alias));
     }
 
-    public function getParameters(string $alias): array
+    public function getParameters(): array
     {
         return $this->specification
-            ->getParameters($alias);
+            ->getParameters();
     }
 }

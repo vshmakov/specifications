@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Specification;
 
 use Doctrine\ORM\QueryBuilder;
+use Symfony\Component\PropertyAccess\PropertyAccess;
 
 abstract class Specification
 {
@@ -12,7 +13,7 @@ abstract class Specification
 
     abstract public function generateDql(string $alias): ?string;
 
-    abstract public function getParameters(string $alias): array;
+    abstract public function getParameters(): array;
 
     public function modifyQuery(QueryBuilder $queryBuilder): void
     {
@@ -30,8 +31,16 @@ abstract class Specification
 
         $queryBuilder->where($dql);
 
-        foreach ($this->getParameters($alias) as $field => $value) {
+        foreach ($this->getParameters() as $field => $value) {
             $queryBuilder->setParameter($field, $value);
         }
+    }
+
+    protected function getFieldValue(object $entity, string $field): mixed
+    {
+        return PropertyAccess::createPropertyAccessorBuilder()
+            ->enableExceptionOnInvalidIndex()
+            ->getPropertyAccessor()
+            ->getValue($entity, $field);
     }
 }
