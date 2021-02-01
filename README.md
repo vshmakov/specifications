@@ -6,6 +6,7 @@
 
 #### Installation
 - `docker-compose up -d`
+- `docker-compose exec php bash -c 'composer install'`
 - `docker-compose exec php bash -c 'bin/console doctrine:migrations:migrate -n'`
 - `docker-compose exec php bash -c 'bin/console doctrine:fixtures:load -n'`
 - Open http://localhost:8080
